@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>河南宝泉景区</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        dark: '#0E2E5C',
+                        light: '#F5F7FA',
+                        accent: '#00B42A'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .animate-float {
+                animation: float 3s ease-in-out infinite;
+            }
+            .animate-fadeIn {
+                animation: fadeIn 0.8s ease-in-out forwards;
+            }
+            .animate-slideUp {
+                animation: slideUp 0.8s ease-out forwards;
+            }
+            .animate-scale {
+                animation: scale 0.5s ease-in-out forwards;
+            }
+            .animate-float-left-right {
+                animation: floatLeftRight 15s ease-in-out infinite;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes scale {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes floatLeftRight {
+            0% { transform: translateX(-50px); }
+            50% { transform: translateX(50px); }
+            100% { transform: translateX(-50px); }
+        }
+
+        @keyframes floatText {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-light font-sans text-dark overflow-hidden">
+    <!-- 背景音乐控制 -->
+    <div id="musicControl" class="fixed top-4 right-4 z-50 w-10 h-10 rounded-full bg-primary/80 flex items-center justify-center shadow-lg cursor-pointer transition-all" onclick="toggleMusic()">
+        <i class="fa fa-music text-white text-lg"></i>
+    </div>
+    <audio id="bgMusic" loop>
+        <source src="http://music.163.com/song/media/outer/url?id=1377501500.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 页面容器 -->
+    <div id="pageContainer" class="w-full h-screen overflow-hidden relative">
+        <!-- 第一页：欢迎页 -->
+        <div class="page absolute inset-0 flex flex-col items-center justify-center z-40" data-page="1" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img0.baidu.com/it/u=706025167,3799554521&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=666'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; display: flex; justify-content: center; align-items: center; position: relative;">
+            <!-- 添加飘动图片 -->
+            <img src="https://img0.baidu.com/it/u=706025167,3799554521&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=666" alt="Floating Image" class="animate-float-left-right" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: auto; z-index: 10;">
+
+            <div class="center-text" style="text-align: center; animation: floatText 3s ease-in-out infinite;">
+                <h1 style="color: white; font-size: 2.5rem; margin-bottom: 20px;">欢迎来到景区</h1>
+                <p style="color: white; font-size: 1.2rem;">探索自然美景，享受宁静时光</p>
+            </div>
+            <div class="absolute bottom-8 left-0 right-0 text-center animate-bounce">
+                <i class="fa fa-angle-down text-white text-3xl"></i>
+            </div>
+        </div>
+
+        <!-- 第二页：景区概览 -->
+        <div class="page absolute inset-0 bg-white z-30 opacity-0 pointer-events-none" data-page="2">
+            <div class="h-full w-full relative">
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://picsum.photos/id/10/800/1200'); filter: brightness(0.8);"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent"></div>
+                
+                <div class="relative pt-20 px-6">
+                    <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-white text-shadow mb-2 animate-slideUp">景区概览</h2>
+                    <p class="text-white/90 text-[clamp(1rem,3vw,1.2rem)] mb-8 max-w-md animate-slideUp" style="animation-delay: 0.2s;">
+                        河南宝泉旅游度假区位于河南省新乡市，是国家4A级景区，集峡谷风光、瀑布奇观、溪流湖泊于一体，被誉为"中原小九寨"。
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-8 animate-slideUp" style="animation-delay: 0.4s;">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                            <i class="fa fa-map-marker text-secondary text-2xl mb-2"></i>
+                            <p class="text-white text-lg">新乡辉县</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                            <i class="fa fa-tree text-accent text-2xl mb-2"></i>
+                            <p class="text-white text-lg">森林覆盖率98%</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                            <i class="fa fa-tint text-primary text-2xl mb-2"></i>
+                            <p class="text-white text-lg">百处飞瀑</p>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                            <i class="fa fa-star text-secondary text-2xl mb-2"></i>
+                            <p class="text-white text-lg">国家4A级景区</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-8 left-0 right-0 text-center animate-bounce">
+                    <i class="fa fa-angle-down text-white text-3xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三页：景点展示 -->
+        <div class="page absolute inset-0 bg-light z-20 opacity-0 pointer-events-none" data-page="3">
+            <div class="h-full flex flex-col">
+                <div class="p-6">
+                    <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-dark mb-2">特色景点</h2>
+                    <p class="text-dark/70 text-[clamp(1rem,3vw,1.2rem)] mb-6">探索宝泉的自然风光与人文景观</p>
+                    
+                    <!-- 景点二级菜单 -->
+                    <div class="relative mb-6">
+                        <div id="scenicMenu" class="flex overflow-x-auto scrollbar-hide gap-3 pb-2">
+                            <button class="scenic-tab px-4 py-2 rounded-full bg-primary text-white whitespace-nowrap">全部景点</button>
+                            <button class="scenic-tab px-4 py-2 rounded-full bg-gray-200 text-dark whitespace-nowrap">瀑布群</button>
+                            <button class="scenic-tab px-4 py-2 rounded-full bg-gray-200 text-dark whitespace-nowrap">峡谷</button>
+                            <button class="scenic-tab px-4 py-2 rounded-full bg-gray-200 text-dark whitespace-nowrap">湖泊</button>
+                            <button class="scenic-tab px-4 py-2 rounded-full bg-gray-200 text-dark whitespace-nowrap">人文</button>
+                        </div>
+                        <div class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300" id="menuIndicator" style="width: 60px;"></div>
+                    </div>
+                </div>
+                
+                <!-- 景点卡片 -->
+                <div class="flex-1 overflow-y-auto scrollbar-hide px-4 pb-20">
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- 景点1 -->
+                        <div class="scenic-card group bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-index="1">
+                            <div class="relative h-36 overflow-hidden">
+                                <img src="https://picsum.photos/id/15/300/200" alt="宝泉飞龙瀑" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                                    <p class="text-white px-3 py-2 text-sm">点击查看详情</p>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-dark">飞龙瀑</h3>
+                                <p class="text-dark/60 text-xs">落差180米，如飞龙天降</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 景点2 -->
+                        <div class="scenic-card group bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-index="2">
+                            <div class="relative h-36 overflow-hidden">
+                                <img src="https://t10.baidu.com/it/u=3995893517,267093979&fm=30&app=106&f=JPEG?w=640&h=427&s=B2A862A1E49947DC1C32EF9E03008099" alt="宝泉玉女瀑" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                                    <p class="text-white px-3 py-2 text-sm">点击查看详情</p>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-dark">玉女瀑</h3>
+                                <p class="text-dark/60 text-xs">形态婀娜，宛如玉女下凡</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 景点3 -->
+                        <div class="scenic-card group bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-index="3">
+                            <div class="relative h-36 overflow-hidden">
+                                <img src="https://miaobi-lite.bj.bcebos.com/miaobi/5mao/b%275paw5Lmh546p5rC0XzE3MzI0ODM5MTcuNDA0MTk3%27/0.png" alt="宝泉峡谷" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                                    <p class="text-white px-3 py-2 text-sm">点击查看详情</p>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-dark">宝泉峡谷</h3>
+                                <p class="text-dark/60 text-xs">壁立千仞，气势恢宏</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 景点4 -->
+                        <div class="scenic-card group bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-index="4">
+                            <div class="relative h-36 overflow-hidden">
+                                <img src="https://img0.baidu.com/it/u=3195809345,2517864767&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1422" alt="宝泉映翠湖" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                                    <p class="text-white px-3 py-2 text-sm">点击查看详情</p>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-dark">映翠湖</h3>
+                                <p class="text-dark/60 text-xs">碧波荡漾，翠色欲滴</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 景点5 -->
+                        <div class="scenic-card group bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-index="5">
+                            <div class="relative h-36 overflow-hidden">
+                                <img src="https://so5.360tres.com/t016e07f8b51ed2b4c8.jpg" alt="宝泉红石滩" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                                    <p class="text-white px-3 py-2 text-sm">点击查看详情</p>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-dark">红石滩</h3>
+                                <p class="text-dark/60 text-xs">红色岩石与溪流交织</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 景点6 -->
+                        <div class="scenic-card group bg-white rounded-xl shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-index="6">
+                            <div class="relative h-36 overflow-hidden">
+                                <img src="https://iknow-pic.cdn.bcebos.com/37d3d539b6003af3796deee5272ac65c1138b65b" alt="宝泉悬空玻璃栈道" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                                    <p class="text-white px-3 py-2 text-sm">点击查看详情</p>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-dark">玻璃栈道</h3>
+                                <p class="text-dark/60 text-xs">体验高空漫步的刺激</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-8 left-0 right-0 text-center animate-bounce">
+                    <i class="fa fa-angle-down text-primary text-3xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第四页：景点详情模态框 -->
+        <div id="scenicDetailModal" class="fixed inset-0 bg-black/90 z-50 opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-hidden transform transition-transform duration-500 scale-95">
+                <div class="relative h-64">
+                    <img id="detailImage" src="https://img0.baidu.com/it/u=3387183477,785108142&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=1043" alt="景点详情图片" class="w-full h-full object-cover">
+                    <button id="closeDetail" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                <div class="p-6 overflow-y-auto max-h-[calc(90vh-160px)]">
+                    <h3 id="detailTitle" class="text-2xl font-bold text-dark mb-2">飞龙瀑</h3>
+                    <p id="detailDesc" class="text-dark/70 mb-4">
+                        飞龙瀑位于宝泉景区中部，落差达180米，是宝泉景区落差最大的瀑布。夏季水流充沛，如银河倾泻，声震如雷；冬季冰瀑晶莹剔透，宛如玉柱。瀑布两侧奇石林立，绿树成荫，是景区内最具代表性的景点之一。
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="bg-light rounded-lg p-3">
+                            <div class="flex items-center mb-1">
+                                <i class="fa fa-clock-o text-primary mr-2"></i>
+                                <span class="text-sm font-medium">最佳观赏时间</span>
+                            </div>
+                            <p class="text-dark/60 text-xs">夏季丰水期</p>
+                        </div>
+                        <div class="bg-light rounded-lg p-3">
+                            <div class="flex items-center mb-1">
+                                <i class="fa fa-map-marker text-secondary mr-2"></i>
+                                <span class="text-sm font-medium">位置</span>
+                            </div>
+                            <p class="text-dark/60 text-xs">景区中部</p>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-bold text-dark mb-2">游客评价</h4>
+                    <div class="space-y-3">
+                        <div class="bg-light rounded-lg p-3">
+                            <div class="flex items-center mb-1">
+                                <img src="https://picsum.photos/id/237/30/30" alt="用户头像" class="w-6 h-6 rounded-full mr-2">
+                                <span class="text-sm font-medium">张先生</span>
+                                <div class="ml-auto flex text-yellow-400">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+                            <p class="text-dark/60 text-xs">非常壮观的瀑布，尤其是在雨季，水流很大，值得一看！</p>
+                        </div>
+                        <div class="bg-light rounded-lg p-3">
+                            <div class="flex items-center mb-1">
+                                <img src="https://picsum.photos/id/177/30/30" alt="用户头像" class="w-6 h-6 rounded-full mr-2">
+                                <span class="text-sm font-medium">李女士</span>
+                                <div class="ml-auto flex text-yellow-400">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
+                            </div>
+                            <p class="text-dark/60 text-xs">拍照非常出片，建议穿防滑鞋，因为路比较滑。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第五页：游玩攻略 -->
+        <div class="page absolute inset-0 bg-white z-10 opacity-0 pointer-events-none" data-page="4">
+            <div class="h-full flex flex-col">
+                <div class="p-6">
+                    <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-dark mb-2">游玩攻略</h2>
+                    <p class="text-dark/70 text-[clamp(1rem,3vw,1.2rem)] mb-6">让你的宝泉之旅更加完美</p>
+                </div>
+                
+                <div class="flex-1 overflow-y-auto scrollbar-hide px-4 pb-20">
+                    <!-- 攻略卡片 -->
+                    <div class="space-y-4">
+                        <div class="bg-light rounded-xl p-5 transform transition-all duration-300 hover:shadow-md">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4 flex-shrink-0">
+                                    <i class="fa fa-calendar text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-dark text-lg mb-1">最佳游玩时间</h3>
+                                    <p class="text-dark/70">宝泉景区四季皆美，春季（3-5月）山花烂漫，夏季（6-8月）避暑纳凉，秋季（9-11月）红叶满山，冬季（12-2月）冰瀑晶莹。建议游玩时间为6-8小时。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-xl p-5 transform transition-all duration-300 hover:shadow-md">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mr-4 flex-shrink-0">
+                                    <i class="fa fa-map text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-dark text-lg mb-1">推荐路线</h3>
+                                    <p class="text-dark/70">景区大门 → 映翠湖 → 红石滩 → 飞龙瀑 → 玉女瀑 → 玻璃栈道 → 萌宠乐园 → 景区出口。全程约8公里，建议乘坐景区观光车，分段游览。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-xl p-5 transform transition-all duration-300 hover:shadow-md">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent mr-4 flex-shrink-0">
+                                    <i class="fa fa-info-circle text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-dark text-lg mb-1">注意事项</h3>
+                                    <p class="text-dark/70">1. 建议穿舒适的运动鞋，部分路段较陡；2. 夏季注意防晒，可携带雨具；3. 景区内有餐饮点，但价格较高，可自带零食；4. 爱护环境，不随地扔垃圾。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-light rounded-xl p-5 transform transition-all duration-300 hover:shadow-md">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4 flex-shrink-0">
+                                    <i class="fa fa-ticket text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-dark text-lg mb-1">门票信息</h3>
+                                    <p class="text-dark/70">成人票：100元/人；优惠票：50元/人（学生、60-69岁老人等）；免票：70岁以上老人、军人、残疾人等。景区观光车：30元/人（往返）。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-8 left-0 right-0 text-center">
+                    <button id="backToTop" class="px-8 py-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-all">
+                        返回首页
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 当前页码
+        let currentPage = 1;
+        const totalPages = 4;
+        let musicPlaying = false;
+        
+        // DOM元素
+        const pages = document.querySelectorAll('.page');
+        const musicControl = document.getElementById('musicControl');
+        const bgMusic = document.getElementById('bgMusic');
+        const backToTopBtn = document.getElementById('backToTop');
+        const scenicDetailModal = document.getElementById('scenicDetailModal');
+        const closeDetailBtn = document.getElementById('closeDetail');
+        const scenicCards = document.querySelectorAll('.scenic-card');
+        const detailImage = document.getElementById('detailImage');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailDesc = document.getElementById('detailDesc');
+        const scenicTabs = document.querySelectorAll('.scenic-tab');
+        const menuIndicator = document.getElementById('menuIndicator');
+        
+        // 景点数据
+        const scenicData = [
+            {
+                title: "飞龙瀑",
+                desc: "飞龙瀑位于宝泉景区中部，落差达180米，是宝泉景区落差最大的瀑布。夏季水流充沛，如银河倾泻，声震如雷；冬季冰瀑晶莹剔透，宛如玉柱。瀑布两侧奇石林立，绿树成荫，是景区内最具代表性的景点之一。",
+                image: "https://picsum.photos/id/15/600/400",
+                time: "夏季丰水期",
+                location: "景区中部"
+            },
+            {
+                title: "玉女瀑",
+                desc: "玉女瀑形态婀娜，宛如玉女下凡。瀑布水流清澈，在阳光的照耀下闪烁着晶莹的光芒。瀑布周围植被茂盛，空气清新，是避暑纳凉的好去处。",
+                image: "https://picsum.photos/id/29/600/400",
+                time: "全年",
+                location: "景区东部"
+            },
+            {
+                title: "宝泉峡谷",
+                desc: "宝泉峡谷壁立千仞，气势恢宏。峡谷内溪流潺潺，奇石林立，植被丰富，是探险爱好者的天堂。在这里，你可以感受到大自然的鬼斧神工和无穷魅力。",
+                image: "https://picsum.photos/id/42/600/400",
+                time: "春秋季",
+                location: "景区西部"
+            },
+            {
+                title: "映翠湖",
+                desc: "映翠湖碧波荡漾，翠色欲滴。湖水清澈见底，倒映着周围的山峦和树木，仿佛一幅美丽的画卷。湖边设有步行道和观景台，是游客休闲散步的好地方。",
+                image: "https://picsum.photos/id/48/600/400",
+                time: "全年",
+                location: "景区入口处"
+            },
+            {
+                title: "红石滩",
+                desc: "红石滩因红色岩石与溪流交织而得名。这里的岩石呈现出鲜艳的红色，在阳光的照耀下格外耀眼。溪流清澈见底，溪中鱼儿穿梭，是拍照留念的好地方。",
+                image: "https://picsum.photos/id/63/600/400",
+                time: "春秋季",
+                location: "景区中部"
+            },
+            {
+                title: "玻璃栈道",
+                desc: "玻璃栈道位于宝泉景区的高山之巅，全长200米，宽2米，距地面高度100米。走在栈道上，仿佛漫步云端，脚下是万丈深渊，非常刺激。这里也是观赏景区全景的最佳位置。",
+                image: "https://picsum.photos/id/76/600/400",
+                time: "全年",
+                location: "景区北部"
+            }
+        ];
+        
+        // 初始化
+        function init() {
+            // 绑定事件
+            document.addEventListener('click', handlePageNavigation);
+            backToTopBtn.addEventListener('click', goToPage.bind(null, 1));
+            musicControl.addEventListener('click', toggleMusic);
+            closeDetailBtn.addEventListener('click', closeScenicDetail);
+            
+            // 绑定景点卡片点击事件
+            scenicCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const index = parseInt(card.dataset.index) - 1;
+                    openScenicDetail(index);
+                });
+            });
+            // 在init()函数中添加
+             document.addEventListener('click', function firstClickHandler() {
+             // 尝试播放音乐
+              bgMusic.play().catch(e => console.log('首次点击尝试播放:', e));
+             // 移除事件监听，只在首次点击时触发
+            document.removeEventListener('click', firstClickHandler);
+});
+            
+            // 绑定景点分类标签点击事件
+            scenicTabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    // 移除所有标签的活动状态
+                    scenicTabs.forEach(t => {
+                        t.classList.remove('bg-primary', 'text-white');
+                        t.classList.add('bg-gray-200', 'text-dark');
+                    });
+                    
+                    // 添加当前标签的活动状态
+                    tab.classList.remove('bg-gray-200', 'text-dark');
+                    tab.classList.add('bg-primary', 'text-white');
+                    
+                    // 移动指示器
+                    const tabRect = tab.getBoundingClientRect();
+                    const containerRect = document.getElementById('scenicMenu').getBoundingClientRect();
+                    menuIndicator.style.width = `${tabRect.width}px`;
+                    menuIndicator.style.transform = `translateX(${tabRect.left - containerRect.left}px)`;
+                    
+                    // 这里可以添加过滤景点的逻辑
+                });
+            });
+            
+            // 初始化菜单指示器
+            const firstTab = scenicTabs[0];
+            const firstTabRect = firstTab.getBoundingClientRect();
+            const containerRect = document.getElementById('scenicMenu').getBoundingClientRect();
+            menuIndicator.style.width = `${firstTabRect.width}px`;
+            menuIndicator.style.transform = `translateX(${firstTabRect.left - containerRect.left}px)`;
+        }
+        
+        // 处理页面导航
+        function handlePageNavigation(e) {
+            // 检查是否点击了向下箭头
+            if (e.target.classList.contains('fa-angle-down') || e.target.parentElement.classList.contains('fa-angle-down')) {
+                if (currentPage < totalPages) {
+                    goToPage(currentPage + 1);
+                }
+            }
+        }
+        
+        // 切换到指定页面
+        function goToPage(pageNum) {
+            if (pageNum === currentPage || pageNum < 1 || pageNum > totalPages) return;
+            
+            // 隐藏当前页面
+            pages[currentPage - 1].classList.add('opacity-0', 'pointer-events-none');
+            
+            // 显示目标页面
+            const targetPage = pages[pageNum - 1];
+            targetPage.classList.remove('opacity-0', 'pointer-events-none');
+            
+            // 更新当前页码
+            currentPage = pageNum;
+            
+            // 触发目标页面的入场动画
+            animatePageIn(targetPage);
+        }
+        
+        // 页面入场动画
+        function animatePageIn(page) {
+            // 根据页面添加不同的动画
+            const elements = page.querySelectorAll('h2, p, .grid, .absolute.bottom-8');
+            
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + index * 150);
+            });
+        }
+        
+        // 切换背景音乐
+        function toggleMusic() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicControl.innerHTML = '<i class="fa fa-music text-white text-lg"></i>';
+                musicControl.classList.remove('animate-spin');
+            } else {
+                bgMusic.play().catch(e => {
+                    console.log('播放失败，可能需要用户交互:', e);
+                    // 这里应该处理播放失败的情况，而不是继续设置状态
+                });
+                // 即使播放失败，仍然会切换状态
+                musicControl.innerHTML = '<i class="fa fa-pause text-white text-lg"></i>';
+                musicControl.classList.add('animate-spin');
+            }
+            musicPlaying = !musicPlaying;
+        }
+        
+        // 打开景点详情
+        function openScenicDetail(index) {
+            const data = scenicData[index];
+            
+            detailImage.src = data.image;
+            detailImage.alt = data.title;
+            detailTitle.textContent = data.title;
+            detailDesc.textContent = data.desc;
+            
+            // 显示模态框
+            scenicDetailModal.classList.remove('opacity-0', 'pointer-events-none');
+            scenicDetailModal.querySelector('.scale-95').classList.remove('scale-95');
+            scenicDetailModal.querySelector('.scale-95').classList.add('scale-100');
+            
+            // 停止页面滚动
+            document.body.style.overflow = 'hidden';
+            
+            // 播放动画
+            playDetailAnimation();
+        }
+        
+        // 关闭景点详情
+        function closeScenicDetail() {
+            scenicDetailModal.classList.add('opacity-0', 'pointer-events-none');
+            scenicDetailModal.querySelector('.scale-100').classList.remove('scale-100');
+            scenicDetailModal.querySelector('.scale-100').classList.add('scale-95');
+            
+            // 恢复页面滚动
+            document.body.style.overflow = '';
+        }
+        
+        // 播放详情页动画
+        function playDetailAnimation() {
+            const elements = scenicDetailModal.querySelectorAll('h3, p, .grid, .bg-light');
+            
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + index * 100);
+            });
+        }
+        
+        // 点击图片播放音乐
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', () => {
+                if (!musicPlaying) {
+                    toggleMusic();
+                }
+            });
+        });
+        
+        // 初始化
+        init();
+    </script>
+</body>
+</html>
+    
